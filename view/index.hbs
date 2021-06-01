@@ -1,0 +1,23 @@
+{{>head title="Paste.📝"}}
+
+<script type="module">
+  function dropFiles(ev) {
+    ev.preventDefault();
+    console.log(ev.dataTransfer.items);
+  }
+
+  function dragover(ev) {
+    ev.preventDefault();
+    //console.log(ev);
+  }
+
+  document.body.addEventListener("drop", dropFiles);
+  document.body.addEventListener("dragover", dragover);
+</script>
+
+<select>
+  {{#each servers}}
+  <option value="{{url}}">{{name}}</option>
+  {{/each}}
+</select>
+{{>foot}}
