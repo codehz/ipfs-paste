@@ -40,27 +40,19 @@ async function compile() {
 
 async function embed_static() {
   console.time("static");
-  let cache = "// deno-fmt-ignore\n";
+  let cache = "";
   cache += `import EmbededFile from "./embeded.ts";\n`;
+  cache += "// deno-fmt-ignore\n";
   cache += "export const fs = {\n";
   for await (const entry of walk("static")) {
     if (entry.isDirectory) continue;
     const stripped = entry.path
       .substring("static/".length)
       .replaceAll(sep, "/");
-    const mt = mime.getType(entry.path);
-    if (mt?.startsWith("text/")) {
-      const contents = await Deno.readTextFile(entry.path);
-      // deno-fmt-ignore
-      const value = `new EmbededFile(${JSON.stringify(mt)}, ${JSON.stringify(contents)})`;
-      cache += `  [${JSON.stringify(stripped)}]: ${value},\n`;
-    } else {
-      const contents = await Deno.readFile(entry.path);
-      const data = `new Uint8Array([${contents.join(", ")}])`;
-      const value = `new EmbededFile(${JSON.stringify(mt)}, ${data})`;
-      // deno-fmt-ignore
-      cache += `  [${JSON.stringify(stripped)}]: ${value},\n`;
-    }
+    const mt = mime.getType(entry.path) ?? "application/octet-stream";
+    // deno-fmt-ignore
+    const value = `await EmbededFile.load(${JSON.stringify(mt)}, ${JSON.stringify(stripped)})`
+    cache += `  ${JSON.stringify(stripped)}: ${value},\n`;
     console.timeLog("static", entry.path);
   }
   cache += "};\n";
