@@ -84,7 +84,7 @@ if (!!args.watch) {
   const buildStatic = async () => {
     const f = debounce(embed_static, 1000);
     await f();
-    for await (const _ of Deno.watchFs("view")) {
+    for await (const _ of Deno.watchFs("static")) {
       await f();
     }
   };
