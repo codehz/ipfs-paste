@@ -22,6 +22,11 @@ jobs:
       - name: Remove .git
         run: rm -rf .git
 
+      - name: clear gitignore
+        run: |
+          sed -i '/^build$/d' .gitignore
+          rm -rf .git
+
       - name: Upload to deploy branch
         if: success()
         uses: crazy-max/ghaction-github-pages@v2
