@@ -1,5 +1,6 @@
 /// <reference path="./typings/deploy.d.ts" />
 
+import { mime } from "https://deno.land/x/mimetypes@v1.0.0/mod.ts";
 import { Context, Router } from "https://deno.land/x/deploy_route@0.1.0/mod.ts";
 import * as views from "./view.ts";
 import * as config from "./config.ts";
@@ -32,9 +33,16 @@ router.get("/", async (event) => {
 });
 
 router.get<{ file: string }>("/static/:file", async (event) => {
-  event.respondWith(
-    await fetch(new URL(`static/${event.params.file}`, import.meta.url)),
+  const resp = await fetch(
+    new URL(`static/${event.params.file}`, import.meta.url),
   );
+  if (resp.ok) {
+    resp.headers.set(
+      "content-type",
+      mime.getType(event.params.file) ?? "application/octet-stream",
+    );
+  }
+  event.respondWith(resp);
 });
 
 addEventListener(
