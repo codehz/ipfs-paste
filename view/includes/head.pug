@@ -1,0 +1,10 @@
+mixin csslink(source)
+  link(href=`/static/${source}.css` rel="stylesheet" type="text/css")
+
+mixin scriptlink(source)
+  script(src=`/static/${source}.js`)
+
+meta(charset="UTF-8")
+meta(http-equiv="X-UA-Compatible" content="IE=edge")
+meta(name="viewport" content="width=device-width, initial-scale=1.0")
++csslink("default")

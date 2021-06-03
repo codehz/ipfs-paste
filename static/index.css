@@ -1,0 +1,135 @@
+#backend > form {
+  display: contents;
+}
+
+#backend select {
+  height: 32px;
+  font-family: inherit;
+  font-size: 16px;
+  border: none;
+  outline: none;
+}
+
+.card {
+  border-radius: 8px;
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px #7777;
+  transition: all ease .5s;
+  padding-top: 2px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+}
+
+.card-header > .btn-delete {
+  position: relative;
+  margin: 0 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  background-color: var(--main-color);
+  opacity: 0.5;
+  transition: opacity .5s ease;
+  outline: none;
+}
+
+.card:focus-within {
+  background-color: #7777;
+  box-shadow: inset 0 0 0 2px transparent;
+}
+
+.card-header > .btn-delete:hover,
+.card-header > .btn-delete:focus {
+  opacity: 1;
+}
+
+.card-header > .btn-delete::before,
+.card-header > .btn-delete::after {
+  position: absolute;
+  content: "";
+  left: 3px;
+  top: 9px;
+  width: 14px;
+  height: 2px;
+  background-color: white;
+  transform-origin: 7px 1px;
+  transform: rotate(45deg);
+}
+
+.card-header > .btn-delete::after {
+  transform: rotate(-45deg);
+}
+
+.filename {
+  flex: 1;
+  padding: 8px;
+  padding-left: 10px;
+  font-weight: bold;
+  outline: none;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+  border: none;;
+}
+
+.filename:focus-visible {
+  text-decoration: underline;
+}
+
+.editarea {
+  border-radius: 8px;
+  border: 2px solid;
+  min-height: 128px;
+  padding: 8px;
+  outline: none;
+  background-color: var(--inv-color);
+}
+
+footer {
+  margin: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+footer > .btn {
+  padding: 8px;
+  text-transform: uppercase;
+  background-color: var(--main-color);
+  color: var(--inv-color);
+}
+
+.btn-more {
+  position: relative;
+  opacity: 0.3;
+  text-indent: 24px;
+  transition: opacity .5s ease;
+}
+
+.btn-more:hover,
+.btn-more:focus {
+  opacity: 1.0;
+}
+
+.btn-more::before,
+.btn-more::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 16px;
+  background-color: var(--inv-color);
+  transform: translate(-50%, -50%);
+  --length: 12px;
+}
+
+.btn-more::before {
+  height: 2px;
+  width: var(--length);
+}
+
+.btn-more::after {
+  height: var(--length);
+  width: 2px;
+}

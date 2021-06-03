@@ -6,4 +6,44 @@ html, body {
 body {
   font-family: monospace;
   font-size: 16px;
+  padding-top: 64px;
+
+  --main-color: #000;
+  --inv-color: #FFF;
+}
+
+header {
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 16px;
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  z-index: 1;
+}
+
+.panel {
+  box-shadow: 0 0 16px 2px var(--inv-color);
+  background-color: var(--inv-color);
+  display: flex;
+  align-items: center;
+  height: 48px;
+  box-sizing: border-box;
+  padding: 8px;
+  border-radius: 8px;
+  border: 2px solid;
+}
+
+section {
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.btn {
+  user-select: none;
+  align-self: flex-end;
+  border: solid 2px var(--main-color);
+  border-radius: 8px;
 }

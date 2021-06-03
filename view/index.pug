@@ -1,0 +1,24 @@
+doctype html
+html(lang="en")
+  include /includes/head.pug
+  +csslink("index")
+  title Code Paste
+
+  header
+    .panel.panel-left
+      .title Code Paste
+    .panel.panel-right#backend
+      form.backend-selector
+        select
+          each server in servers
+            option(value=server.url)= server.name
+
+  section#content(role="Main")
+    .card
+      .card-header
+        input.filename(placeholder="file name" value="paste.txt")
+        .btn-delete(tabindex="-1" title="Remove this card" role="button")
+      .editarea(contenteditable="plaintext-only" role="textbox" title="file contents")
+  footer
+    .btn.btn-more more
+    .btn.btn-primary.btn-upload upload
