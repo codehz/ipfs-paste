@@ -19,9 +19,6 @@ jobs:
       - name: Build pug
         run: deno run --allow-read --allow-write --unstable build.ts
 
-      - name: Remove .git
-        run: rm -rf .git
-
       - name: clear gitignore
         run: |
           sed -i '/^build$/d' .gitignore
