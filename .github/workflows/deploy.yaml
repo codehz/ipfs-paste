@@ -17,7 +17,7 @@ jobs:
           deno-version: v1.x
 
       - name: Build pug
-        run: deno -run --allow-read --allow-write --unstable build.ts
+        run: deno run --allow-read --allow-write --unstable build.ts
 
       - name: Remove .git
         run: rm -rf .git
