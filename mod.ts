@@ -4,6 +4,7 @@ import { mime } from "https://deno.land/x/mimetypes@v1.0.0/mod.ts";
 import { Context, Router } from "https://deno.land/x/deploy_route@0.1.0/mod.ts";
 import * as views from "./view.ts";
 import * as config from "./config.ts";
+import * as embeded from "./static.ts";
 
 const router = new Router();
 
@@ -20,7 +21,7 @@ router.use(async (event, next) => {
 });
 
 router.get("/", async (event) => {
-  event.respondWith(
+  await event.respondWith(
     new Response(
       views.index({ servers: config.servers }),
       {
@@ -32,24 +33,27 @@ router.get("/", async (event) => {
   );
 });
 
-router.get("/favicon.ico", async (event) => {
-  event.respondWith(Response.redirect("/static/favicon.ico", 301));
+router.all("/favicon.ico", async (event) => {
+  await event.respondWith(Response.redirect("/static/favicon.ico", 301));
 });
 
-router.get<{ file: string }>("/static/:file", async (event) => {
-  const resp = await fetch(
-    new URL(`static/${event.params.file}`, import.meta.url),
-  );
-  if (resp.ok) {
-    const headers = new Headers(resp.headers);
-    headers.set(
-      "content-type",
-      mime.getType(event.params.file) ?? "application/octet-stream",
-    );
-    event.respondWith(new Response(resp.body, { ...resp, headers }));
+router.all<{ file: string }>("/static/:file", async (event) => {
+  if (event.request.method !== "HEAD" && event.request.method !== "GET") {
+    await event.respondWith(new Response(null, { status: 405 }));
     return;
   }
-  event.respondWith(resp);
+  const file = event.params.file;
+  if (embeded.contains(file)) {
+    const contents = embeded.fs[file];
+    const requested = event.request.headers.get("if-none-match") ?? "";
+    if (requested == contents.etag) {
+      await event.respondWith(new Response(null, { status: 304 }));
+    } else {
+      await event.respondWith(contents.build(event.request.method === "HEAD"));
+    }
+  } else {
+    await event.respondWith(new Response(null, { status: 404 }));
+  }
 });
 
 addEventListener(
