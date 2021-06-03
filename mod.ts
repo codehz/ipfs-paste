@@ -37,10 +37,13 @@ router.get<{ file: string }>("/static/:file", async (event) => {
     new URL(`static/${event.params.file}`, import.meta.url),
   );
   if (resp.ok) {
-    resp.headers.set(
+    const headers = new Headers(resp.headers);
+    headers.set(
       "content-type",
       mime.getType(event.params.file) ?? "application/octet-stream",
     );
+    event.respondWith(new Response(resp.body, { ...resp, headers }));
+    return;
   }
   event.respondWith(resp);
 });
