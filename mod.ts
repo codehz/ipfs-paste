@@ -32,6 +32,10 @@ router.get("/", async (event) => {
   );
 });
 
+router.get("/favicon.ico", async (event) => {
+  event.respondWith(Response.redirect("/static/favicon.ico", 301));
+});
+
 router.get<{ file: string }>("/static/:file", async (event) => {
   const resp = await fetch(
     new URL(`static/${event.params.file}`, import.meta.url),
