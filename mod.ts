@@ -33,7 +33,14 @@ router.get("/", async (event) => {
 });
 
 router.all("/favicon.ico", async (event) => {
-  await event.respondWith(Response.redirect("/static/favicon.ico", 301));
+  await event.respondWith(
+    new Response(null, {
+      status: 301,
+      headers: {
+        "location": "/static/favicon.ico",
+      },
+    }),
+  );
 });
 
 router.all<{ file: string }>("/static/:file", async (event) => {

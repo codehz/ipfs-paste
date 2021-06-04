@@ -13,6 +13,7 @@ import { sep } from "https://deno.land/std@0.97.0/path/mod.ts";
 import { mime } from "https://deno.land/x/mimetypes@v1.0.0/mod.ts";
 
 mime.define({ "text/livescript": ["ls"] });
+mime.define({ "image/x-icon": ["ico"] }, true);
 
 const args = parse(Deno.args);
 
@@ -48,7 +49,7 @@ async function embedStatic() {
   console.time("static");
   let cache = ignred;
   cache += `import EmbededFile from "./embeded.ts";\n`;
-  cache += `console.time("load");\n`
+  cache += `console.time("load");\n`;
   cache += "export const fs = {\n";
   for await (const entry of walk("static")) {
     if (entry.isDirectory) continue;
@@ -59,7 +60,9 @@ async function embedStatic() {
     if (mt == "text/livescript") {
       // deno-fmt-ignore
       const value = `await EmbededFile.compile(${JSON.stringify(stripped)})`
-      cache += `  ${JSON.stringify(stripped.replace(/ls$/, "js"))}: ${value},\n`;
+      cache += `  ${
+        JSON.stringify(stripped.replace(/ls$/, "js"))
+      }: ${value},\n`;
     } else {
       // deno-fmt-ignore
       const value = `await EmbededFile.load(${JSON.stringify(mt)}, ${JSON.stringify(stripped)})`
@@ -69,7 +72,7 @@ async function embedStatic() {
     console.timeLog("static", entry.path);
   }
   cache += "};\n";
-  cache += `console.timeEnd("load");\n`
+  cache += `console.timeEnd("load");\n`;
   cache +=
     "export function contains(name: string): name is keyof typeof fs {\n";
   cache += "  return name in fs;\n";
