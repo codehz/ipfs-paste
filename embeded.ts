@@ -9,7 +9,7 @@ export default class EmbededFile {
     this.etag = hasher.hex();
   }
 
-  build(head: boolean = false): Response {
+  build(head = false): Response {
     return new Response(
       head ? null : this.content,
       {

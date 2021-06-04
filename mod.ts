@@ -1,6 +1,5 @@
 /// <reference path="./typings/deploy.d.ts" />
 
-import { mime } from "https://deno.land/x/mimetypes@v1.0.0/mod.ts";
 import { Context, Router } from "https://deno.land/x/deploy_route@0.1.0/mod.ts";
 import * as views from "./view.ts";
 import * as config from "./config.ts";
@@ -58,5 +57,6 @@ router.all<{ file: string }>("/static/:file", async (event) => {
 
 addEventListener(
   "fetch",
+  // deno-lint-ignore no-explicit-any
   (event) => router.dispatch(new Context(event as any)),
 );

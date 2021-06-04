@@ -16,6 +16,10 @@ const args = parse(Deno.args);
 
 await ensureDir("build");
 
+const ignred = `// deno-fmt-ignore-file
+// deno-lint-ignore-file
+`;
+
 async function compile() {
   console.time("build");
   for await (const entry of expandGlob("view/*.pug")) {
@@ -28,7 +32,7 @@ async function compile() {
       });
       await Deno.writeTextFile(
         `build/${entry.name.replace(/\.pug$/, ".js")}`,
-        "// deno-fmt-ignore-file\n" + header + result,
+        ignred + header + result,
       );
       console.timeLog("build", entry.name);
     } catch (e) {
@@ -38,9 +42,9 @@ async function compile() {
   console.timeEnd("build");
 }
 
-async function embed_static() {
+async function embedStatic() {
   console.time("static");
-  let cache = "";
+  let cache = ignred;
   cache += `import EmbededFile from "./embeded.ts";\n`;
   cache += "// deno-fmt-ignore\n";
   cache += "export const fs = {\n";
@@ -65,7 +69,7 @@ async function embed_static() {
   console.timeEnd("static");
 }
 
-if (!!args.watch) {
+if (args.watch) {
   const buildView = async () => {
     const f = debounce(compile, 1000);
     await f();
@@ -74,7 +78,7 @@ if (!!args.watch) {
     }
   };
   const buildStatic = async () => {
-    const f = debounce(embed_static, 1000);
+    const f = debounce(embedStatic, 1000);
     await f();
     for await (const _ of Deno.watchFs("static")) {
       await f();
@@ -87,6 +91,6 @@ if (!!args.watch) {
 } else {
   await Promise.all([
     compile(),
-    embed_static(),
+    embedStatic(),
   ]);
 }
