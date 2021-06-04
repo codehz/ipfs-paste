@@ -1,0 +1,18 @@
+doctype html
+html(lang="en")
+  include /includes/head.pug
+  +script("https://cdn.jsdelivr.net/npm/overlayscrollbars@1.13.1/js/OverlayScrollbars.min.js")
+  +css("https://cdn.jsdelivr.net/npm/overlayscrollbars@1.13.1/css/OverlayScrollbars.min.css")
+  title Paste #{hash}
+
+  header
+    .panel.panel-left
+      .title Paste
+    .panel.panel-right
+      .a-create Create new paste
+
+  section
+    each item in files
+      .card
+        .filename=item.filename
+        code.content=item.content

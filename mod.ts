@@ -62,6 +62,29 @@ router.all<{ file: string }>("/static/:file", async (event) => {
   }
 });
 
+router.get<{ hash: string }>("/ipfs/:hash", async (event) => {
+  const hash = event.params.hash;
+  await event.respondWith(
+    new Response(
+      views.show({
+        hash,
+        files: [{
+          filename: "test.txt",
+          content: "hello world",
+        }, {
+          filename: "test2.txt",
+          content: "hello world2",
+        }],
+      }),
+      {
+        headers: {
+          "content-type": "text/html",
+        },
+      },
+    ),
+  );
+});
+
 addEventListener(
   "fetch",
   // deno-lint-ignore no-explicit-any
