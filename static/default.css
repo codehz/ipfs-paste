@@ -5,21 +5,36 @@ body {
 }
 
 html {
-  background-image: radial-gradient(#7777 2px, transparent 0);
-  background-size: 24px 24px;
+  background-image: radial-gradient(var(--dim-color) 1.5px, transparent 0);
+  background-size: 16px 16px;
   background-position: center top;
   background-attachment: fixed;
+
+  --main-color: #000;
+  --dim-color: #bfbfbf;
+  --inv-color: #fff;
+
+  background-color: var(--inv-color);
 }
 
 body {
   font-family: monospace;
   font-size: 16px;
   padding-top: 64px;
-  margin: 0 auto;
-  max-width: 1024px;
+}
 
-  --main-color: #000;
-  --inv-color: #fff;
+body.os-host > .os-padding > .os-viewport > .os-content,
+body.os-host > .os-padding > .os-viewport > .os-content-arrange {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    --main-color: #fff;
+    --dim-color: #424242;
+    --inv-color: #121212;
+  }
 }
 
 header {
@@ -57,4 +72,100 @@ section {
   align-self: flex-end;
   border: solid 2px var(--main-color);
   border-radius: 8px;
+}
+
+::selection {
+  background-color: var(--main-color);
+  color: var(--inv-color);
+}
+
+/*
+os-theme-thin
+*/
+
+.os-theme-thin > .os-scrollbar-horizontal {
+  right: 16px;
+  height: 16px;
+  padding: 0px 8px;
+  background-color: var(--inv-color);
+}
+.os-theme-thin > .os-scrollbar-vertical {
+  bottom: 16px;
+  width: 16px;
+  padding: 8px 0px;
+  background-color: var(--inv-color);
+}
+.os-theme-thin.os-host-rtl > .os-scrollbar-horizontal {
+  left: 16px;
+  right: 0;
+}
+.os-theme-thin > .os-scrollbar-corner {
+  height: 16px;
+  width: 16px;
+  background-color: var(--inv-color);
+}
+.os-theme-thin > .os-scrollbar > .os-scrollbar-track {
+  background: var(--inv-color);
+}
+.os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track:before,
+.os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track:before {
+  content: '';
+  display: block;
+  position: absolute;
+  background: var(--dim-color);
+}
+.os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track:before,
+.os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle:before {
+  left: 0;
+  right: 0;
+  height: 2px;
+  top: 50%;
+  margin-top: -1px;
+}
+.os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track:before,
+.os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle:before {
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  left: 50%;
+  margin-left: -1px;
+}
+.os-theme-thin > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle:before {
+  content: '';
+  display: block;
+  position: absolute;
+  background: var(--main-color);
+  border-radius: 10px;
+}
+.os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle:hover:before,
+.os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle.active:before {
+  height: 4px;
+  margin-top: -2px;
+}
+.os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle:hover:before,
+.os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle.active:before {
+  width: 4px;
+  margin-left: -2px;
+}
+.os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle:hover:before,
+.os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle:hover:before {
+  background: var(--main-color);
+}
+.os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle.active:before,
+.os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle.active:before {
+  background: var(--main-color);
+}
+.os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
+  height: 100%;
+  min-width: 30px;
+}
+.os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
+  width: 100%;
+  min-height: 30px;
+}
+.os-theme-thin.os-host-transition > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle:before {
+  transition: height 0.3s, margin-top 0.3s, background 0.2s;
+}
+.os-theme-thin.os-host-transition > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle:before {
+  transition: width 0.3s, margin-left 0.3s, background 0.2s;
 }
