@@ -3,9 +3,10 @@ template = document.query-selector \#content-template
 content = document.query-selector \#content
 
 !function append-card
-  node = template.content.cloneNode true .first-child
-  content.append-child node .scroll-into-view do
-    behavior: \smooth
+  template.content.clone-node true .first-child
+  |> content.append-child _
+    ..scroll-into-view do
+      behavior: \smooth
 
 !function remove-card card
   card.remove!
@@ -14,8 +15,6 @@ content = document.query-selector \#content
 
 append-card!
 
-document.add-event-listener \click (e) ->
-  target = e.target
-  switch
+document.add-event-listener \click ({ target }) ->
   | target.matches \#more => append-card!
   | target.matches \.btn-delete => remove-card target.closest \.card
