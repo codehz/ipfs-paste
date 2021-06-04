@@ -12,6 +12,8 @@ import {
 import { sep } from "https://deno.land/std@0.97.0/path/mod.ts";
 import { mime } from "https://deno.land/x/mimetypes@v1.0.0/mod.ts";
 
+mime.define({ "text/livescript": ["ls"] });
+
 const args = parse(Deno.args);
 
 await ensureDir("build");
@@ -46,7 +48,7 @@ async function embedStatic() {
   console.time("static");
   let cache = ignred;
   cache += `import EmbededFile from "./embeded.ts";\n`;
-  cache += "// deno-fmt-ignore\n";
+  cache += `console.time("load");\n`
   cache += "export const fs = {\n";
   for await (const entry of walk("static")) {
     if (entry.isDirectory) continue;
@@ -54,12 +56,20 @@ async function embedStatic() {
       .substring("static/".length)
       .replaceAll(sep, "/");
     const mt = mime.getType(entry.path) ?? "application/octet-stream";
-    // deno-fmt-ignore
-    const value = `await EmbededFile.load(${JSON.stringify(mt)}, ${JSON.stringify(stripped)})`
-    cache += `  ${JSON.stringify(stripped)}: ${value},\n`;
+    if (mt == "text/livescript") {
+      // deno-fmt-ignore
+      const value = `await EmbededFile.compile(${JSON.stringify(stripped)})`
+      cache += `  ${JSON.stringify(stripped.replace(/ls$/, "js"))}: ${value},\n`;
+    } else {
+      // deno-fmt-ignore
+      const value = `await EmbededFile.load(${JSON.stringify(mt)}, ${JSON.stringify(stripped)})`
+      // deno-fmt-ignore
+      cache += `  ${JSON.stringify(stripped)}: ${value},\n`;
+    }
     console.timeLog("static", entry.path);
   }
   cache += "};\n";
+  cache += `console.timeEnd("load");\n`
   cache +=
     "export function contains(name: string): name is keyof typeof fs {\n";
   cache += "  return name in fs;\n";

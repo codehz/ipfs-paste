@@ -1,6 +1,8 @@
 doctype html
 html(lang="en")
   include /includes/head.pug
+  +script("https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js")
+  +jslink("index")
   +csslink("index")
   title Code Paste
 
@@ -8,17 +10,18 @@ html(lang="en")
     .panel.panel-left
       .title Code Paste
     .panel.panel-right#backend
-      form.backend-selector
+      form#backend-selector
         select
           each server in servers
             option(value=server.url)= server.name
 
-  section#content(role="Main")
+  template#content-template
     .card
       .card-header
         input.filename(placeholder="file name" value="paste.txt")
         .btn-delete(tabindex="-1" title="Remove this card" role="button")
       .editarea(contenteditable="plaintext-only" role="textbox" title="file contents")
+  section#content(role="Main")
   footer
-    .btn.btn-more more
-    .btn.btn-primary.btn-upload upload
+    .btn.btn-more#more more
+    .btn.btn-primary.btn-upload#upload upload

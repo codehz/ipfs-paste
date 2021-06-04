@@ -17,6 +17,7 @@
   box-shadow: inset 0 0 0 2px #7777;
   transition: all ease .5s;
   padding-top: 2px;
+  backdrop-filter: blur(10px);
 }
 
 .card-header {
@@ -31,7 +32,7 @@
   height: 20px;
   border-radius: 20px;
   background-color: var(--main-color);
-  opacity: 0.5;
+  opacity: 0;
   transition: opacity .5s ease;
   outline: none;
 }
@@ -39,6 +40,10 @@
 .card:focus-within {
   background-color: #7777;
   box-shadow: inset 0 0 0 2px transparent;
+}
+
+.card:focus-within .btn-delete {
+  opacity: 0.5;
 }
 
 .card-header > .btn-delete:hover,
@@ -106,14 +111,16 @@ footer > .btn {
 
 .btn-more {
   position: relative;
-  opacity: 0.5;
   text-indent: 24px;
-  transition: opacity .5s ease;
+  transition: all .5s ease;
+  color: var(--main-color);
+  background-color: var(--inv-color);
 }
 
 .btn-more:hover,
 .btn-more:focus {
-  opacity: 1.0;
+  color: var(--inv-color);
+  background-color: var(--main-color);
 }
 
 .btn-more::before,
@@ -124,8 +131,17 @@ footer > .btn {
   top: 50%;
   left: 16px;
   background-color: var(--main-color);
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(0);
   --length: 12px;
+  transition: all .5s ease;
+}
+
+.btn-more:hover::before,
+.btn-more:hover::after,
+.btn-more:focus::before,
+.btn-more:focus::after {
+  background-color: var(--inv-color);
+  transform: translate(-50%, -50%) rotate(90deg);
 }
 
 .btn-more::before {

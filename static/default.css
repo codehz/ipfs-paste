@@ -1,6 +1,14 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
+}
+
+html {
+  background-image: radial-gradient(#7777 2px, transparent 0);
+  background-size: 24px 24px;
+  background-position: center top;
+  background-attachment: fixed;
 }
 
 body {
@@ -11,7 +19,7 @@ body {
   max-width: 1024px;
 
   --main-color: #000;
-  --inv-color: #FFF;
+  --inv-color: #fff;
 }
 
 header {
@@ -41,6 +49,7 @@ section {
   margin: 16px;
   display: flex;
   flex-direction: column;
+  gap: 16px;
 }
 
 .btn {
