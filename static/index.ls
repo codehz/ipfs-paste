@@ -18,14 +18,20 @@ OverlayScrollbars document.body, do
     x: \hidden
     y: \scroll
 
+function random-name
+  Math.random!
+  .to-string 36
+  .substring 7
+
 !function append-card
+  random = random-name!
   template.content.clone-node true .first-child
   |>content.append-child _
-    ..scroll-into-view do
-      behavior: \smooth
+    ..scroll-into-view!
     ..query-selector \.filename
       ..focus!
-      ..select!
+      ..value = "#random.txt"
+      ..set-selection-range 0, random.length
 
 !function remove-card card
   card.remove!

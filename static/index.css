@@ -81,10 +81,6 @@
   border: none;;
 }
 
-.filename:focus-visible {
-  text-decoration: underline;
-}
-
 .editarea {
   border-radius: 8px;
   border: 2px solid;
