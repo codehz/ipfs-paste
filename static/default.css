@@ -116,6 +116,64 @@ section {
   color: var(--inv-color);
 }
 
+@keyframes dialog-show {
+  0% {
+    transform: translateY(-50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-blur {
+  0% {
+    backdrop-filter: blur(0);
+  }
+  100% {
+    backdrop-filter: blur(16px);
+  }
+}
+
+#dialog {
+  border-radius: 8px;
+  border: 2px solid;
+  animation: dialog-show 0.5s ease 0s;
+}
+
+#dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+#dialog::backdrop {
+  backdrop-filter: blur(16px);
+  background: none;
+  animation: dialog-blur 1s ease 0s;
+}
+
+#dialog h2 {
+  margin: 0;
+}
+
+#dialog menu {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+#dialog button {
+  font: inherit;
+  color: var(--inv-color);
+  background-color: var(--main-color);
+  border: none;
+  outline: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
 /*
 os-theme-thin
 */
@@ -146,13 +204,16 @@ os-theme-thin
 }
 .os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track:before,
 .os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track:before {
-  content: '';
+  content: "";
   display: block;
   position: absolute;
   background: var(--dim-color);
 }
 .os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track:before,
-.os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle:before {
+.os-theme-thin
+  > .os-scrollbar-horizontal
+  > .os-scrollbar-track
+  > .os-scrollbar-handle:before {
   left: 0;
   right: 0;
   height: 2px;
@@ -160,49 +221,91 @@ os-theme-thin
   margin-top: -1px;
 }
 .os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track:before,
-.os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle:before {
+.os-theme-thin
+  > .os-scrollbar-vertical
+  > .os-scrollbar-track
+  > .os-scrollbar-handle:before {
   top: 0;
   bottom: 0;
   width: 2px;
   left: 50%;
   margin-left: -1px;
 }
-.os-theme-thin > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle:before {
-  content: '';
+.os-theme-thin
+  > .os-scrollbar
+  > .os-scrollbar-track
+  > .os-scrollbar-handle:before {
+  content: "";
   display: block;
   position: absolute;
   background: var(--main-color);
   border-radius: 10px;
 }
-.os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle:hover:before,
-.os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle.active:before {
+.os-theme-thin
+  > .os-scrollbar-horizontal
+  > .os-scrollbar-track
+  > .os-scrollbar-handle:hover:before,
+.os-theme-thin
+  > .os-scrollbar-horizontal
+  > .os-scrollbar-track
+  > .os-scrollbar-handle.active:before {
   height: 4px;
   margin-top: -2px;
 }
-.os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle:hover:before,
-.os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle.active:before {
+.os-theme-thin
+  > .os-scrollbar-vertical
+  > .os-scrollbar-track
+  > .os-scrollbar-handle:hover:before,
+.os-theme-thin
+  > .os-scrollbar-vertical
+  > .os-scrollbar-track
+  > .os-scrollbar-handle.active:before {
   width: 4px;
   margin-left: -2px;
 }
-.os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle:hover:before,
-.os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle:hover:before {
+.os-theme-thin
+  > .os-scrollbar-horizontal
+  > .os-scrollbar-track
+  > .os-scrollbar-handle:hover:before,
+.os-theme-thin
+  > .os-scrollbar-vertical
+  > .os-scrollbar-track
+  > .os-scrollbar-handle:hover:before {
   background: var(--main-color);
 }
-.os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle.active:before,
-.os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle.active:before {
+.os-theme-thin
+  > .os-scrollbar-horizontal
+  > .os-scrollbar-track
+  > .os-scrollbar-handle.active:before,
+.os-theme-thin
+  > .os-scrollbar-vertical
+  > .os-scrollbar-track
+  > .os-scrollbar-handle.active:before {
   background: var(--main-color);
 }
-.os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
+.os-theme-thin
+  > .os-scrollbar-horizontal
+  > .os-scrollbar-track
+  > .os-scrollbar-handle {
   height: 100%;
   min-width: 30px;
 }
-.os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
+.os-theme-thin
+  > .os-scrollbar-vertical
+  > .os-scrollbar-track
+  > .os-scrollbar-handle {
   width: 100%;
   min-height: 30px;
 }
-.os-theme-thin.os-host-transition > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle:before {
+.os-theme-thin.os-host-transition
+  > .os-scrollbar-horizontal
+  > .os-scrollbar-track
+  > .os-scrollbar-handle:before {
   transition: height 0.3s, margin-top 0.3s, background 0.2s;
 }
-.os-theme-thin.os-host-transition > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle:before {
+.os-theme-thin.os-host-transition
+  > .os-scrollbar-vertical
+  > .os-scrollbar-track
+  > .os-scrollbar-handle:before {
   transition: width 0.3s, margin-left 0.3s, background 0.2s;
 }

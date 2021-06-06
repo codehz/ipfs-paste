@@ -1,11 +1,12 @@
 backend = document.query-selector \#backend-selector
 template = document.query-selector \#content-template
 content = document.query-selector \#content
+dialog = document.query-selector \#dialog
 
 document.add-event-listener \click ({ target }) ->
   | target.matches \#more => append-card!
   | target.matches \.btn-delete => remove-card target.closest \.card
-  | target.matches \#upload => upload!
+  | target.matches \#upload => upload target
 
 append-card!
 
@@ -36,11 +37,20 @@ function extract-card card
 function get-contents
   [...content.children].map extract-card
 
-!async function upload
-  client = IpfsHttpClientLite backend.value
-  contents = get-contents!
-  arr = await client.add contents, do
-    cid-version: 1
-    trickle: true
-    wrap-with-directory: true
-  location.href = "/ipfs/#{arr.pop!.hash}"
+!async function upload target
+  return if target.disabled
+  target.disabled = true
+  try
+    client = IpfsHttpClientLite backend.value
+    contents = get-contents!
+    arr = await client.add contents, do
+      cid-version: 1
+      trickle: true
+      wrap-with-directory: true
+    location.href = "/ipfs/#{arr.pop!.hash}"
+  catch
+    dialog.query-selector \.reason
+      ..text-content = e + ""
+    dialog.show-modal!
+    console.error e
+    delete! target.disabled

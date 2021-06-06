@@ -15,6 +15,13 @@ html(lang="en")
         each server in servers
           option(value=server.url)= server.name
 
+  dialog#dialog
+    form(method="dialog")
+      h2 Failed to upload
+      p.reason
+      menu
+        button(value="default") ok
+
   template#content-template
     .card
       .card-header
