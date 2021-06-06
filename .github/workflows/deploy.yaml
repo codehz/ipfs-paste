@@ -28,6 +28,8 @@ jobs:
         if: success()
         uses: crazy-max/ghaction-github-pages@v2
         with:
+          repo: codehz/ipfs-paste-deploy
+          keep_history: true
           target_branch: deploy
           build_dir: .
           commit_message: Deploy for deno deploy
