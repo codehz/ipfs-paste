@@ -12,20 +12,6 @@
   background-color: var(--inv-color);
 }
 
-.card {
-  border-radius: 8px;
-  background-color: transparent;
-  box-shadow: inset 0 0 0 2px var(--dim-color);
-  transition: background-color ease 0.5s, box-shadow ease 0.5s;
-  padding-top: 2px;
-  background-color: var(--inv-color);
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-}
-
 .card-header > .btn-delete {
   position: relative;
   margin: 0 10px;
@@ -36,11 +22,6 @@
   opacity: 0;
   transition: opacity 0.5s ease;
   outline: none;
-}
-
-.card:focus-within {
-  background-color: var(--dim-color);
-  box-shadow: inset 0 0 0 2px transparent;
 }
 
 .card:focus-within .btn-delete {
@@ -81,16 +62,6 @@
   border: none;
 }
 
-.editarea {
-  border-radius: 8px;
-  border: 2px solid;
-  min-height: 128px;
-  padding: 8px;
-  outline: none;
-  background-color: var(--inv-color);
-  position: relative;
-}
-
 .editarea::before {
   display: block;
   content: "Paste or drag files here";
@@ -114,8 +85,6 @@
 
 footer {
   margin: 16px;
-  margin-bottom: 0;
-  padding-bottom: 16px;
   display: flex;
   justify-content: space-between;
 }

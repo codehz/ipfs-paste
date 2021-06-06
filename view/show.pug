@@ -1,8 +1,8 @@
 doctype html
 html(lang="en")
   include /includes/head.pug
-  +script("https://cdn.jsdelivr.net/npm/overlayscrollbars@1.13.1/js/OverlayScrollbars.min.js")
-  +css("https://cdn.jsdelivr.net/npm/overlayscrollbars@1.13.1/css/OverlayScrollbars.min.css")
+  +jslink("default")
+  +csslink("show")
   title Paste #{hash}
 
   header
@@ -13,6 +13,9 @@ html(lang="en")
 
   section
     each item in files
-      .card
-        .filename=item.filename
-        code.content=item.content
+      if item.type === "file"
+        .card
+          .card-header
+            .filename=item.filename
+          code.card-body.content=item.content
+  .placeholder

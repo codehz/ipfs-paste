@@ -1,9 +1,7 @@
 doctype html
 html(lang="en")
   include /includes/head.pug
-  +script("https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js")
-  +script("https://cdn.jsdelivr.net/npm/overlayscrollbars@1.13.1/js/OverlayScrollbars.min.js")
-  +css("https://cdn.jsdelivr.net/npm/overlayscrollbars@1.13.1/css/OverlayScrollbars.min.css")
+  +jslink("default")
   +jslink("index")
   +csslink("index")
   title Code Paste
@@ -22,8 +20,9 @@ html(lang="en")
       .card-header
         input.filename(placeholder="file name" value="paste.txt")
         .btn-delete(tabindex="-1" title="Remove this card" role="button")
-      .editarea(contenteditable="plaintext-only" role="textbox" title="file contents")
+      .card-body.editarea(contenteditable="plaintext-only" role="textbox" title="file contents")
   section#content(role="Main")
   footer
     .btn.btn-more#more more
     .btn.btn-primary.btn-upload#upload upload
+  .placeholder

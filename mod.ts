@@ -4,7 +4,9 @@ import { Context, Router } from "https://deno.land/x/deploy_route@0.1.0/mod.ts";
 import * as views from "./view.ts";
 import * as config from "./config.ts";
 import * as embeded from "./static.ts";
+import { IpfsClient } from "./ipfs.ts";
 
+const client = new IpfsClient({ base: new URL("https://ipfs.io/api/v0/") });
 const router = new Router();
 
 router.use(async (event, next) => {
@@ -64,25 +66,25 @@ router.all<{ file: string }>("/static/:file", async (event) => {
 
 router.get<{ hash: string }>("/ipfs/:hash", async (event) => {
   const hash = event.params.hash;
-  await event.respondWith(
-    new Response(
-      views.show({
-        hash,
-        files: [{
-          filename: "test.txt",
-          content: "hello world",
-        }, {
-          filename: "test2.txt",
-          content: "hello world2",
-        }],
-      }),
-      {
-        headers: {
-          "content-type": "text/html",
+  try {
+    const list = await client.generateList(hash);
+    await event.respondWith(
+      new Response(
+        views.show({
+          hash,
+          files: list,
+        }),
+        {
+          headers: {
+            "content-type": "text/html",
+          },
         },
-      },
-    ),
-  );
+      ),
+    );
+  } catch (e) {
+    console.error(e);
+    await event.respondWith(new Response(e + "", { status: 500 }));
+  }
 });
 
 addEventListener(
