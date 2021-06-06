@@ -54,6 +54,7 @@ function get-contents
     contents = get-contents!
     arr = await client.add contents, do
       cid-version: 1
+      cid-base: "base58btc"
       trickle: true
       wrap-with-directory: true
     location.href = "/ipfs/#{arr.pop!.hash}"
