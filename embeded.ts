@@ -23,9 +23,9 @@ export default class EmbededFile {
     );
   }
 
-  static compressed(mime: string, compressed: Uint8Array) {
+  static compressed(mime: string, compressed: Uint8Array, filename: string) {
     const data = decompress(compressed);
-    console.timeLog("load", "[extracted]");
+    console.timeLog("load", filename, "[extracted]");
     return new EmbededFile(mime, data);
   }
 

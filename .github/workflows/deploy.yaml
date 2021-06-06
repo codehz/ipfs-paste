@@ -22,7 +22,7 @@ jobs:
       - name: clear gitignore
         run: |
           rm -rf .git .github .gitignore
-          find static -type f -not -name '*.ls' -print0 | xargs -0 rm --
+          rm -rf static
 
       - name: Upload to deploy branch
         if: success()
