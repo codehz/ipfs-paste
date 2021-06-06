@@ -17,11 +17,12 @@ jobs:
           deno-version: v1.x
 
       - name: Build pug
-        run: deno run --allow-read --allow-write --unstable build.ts
+        run: deno run --allow-read --allow-write --unstable build.ts --production
 
       - name: clear gitignore
         run: |
           rm -rf .git .github .gitignore
+          find static -type f -not -name '*.ls' -print0 | xargs -0 rm --
 
       - name: Upload to deploy branch
         if: success()

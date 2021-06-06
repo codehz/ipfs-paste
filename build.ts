@@ -11,17 +11,26 @@ import {
 } from "https://deno.land/std@0.97.0/fs/mod.ts";
 import { sep } from "https://deno.land/std@0.97.0/path/mod.ts";
 import { mime } from "https://deno.land/x/mimetypes@v1.0.0/mod.ts";
+import { compress } from "https://deno.land/x/lz4@v0.1.2/mod.ts";
 
 mime.define({ "text/livescript": ["ls"] });
 mime.define({ "image/x-icon": ["ico"] }, true);
 
 const args = parse(Deno.args);
 
+const production = !!args.production;
+
 await ensureDir("build");
 
 const ignred = `// deno-fmt-ignore-file
 // deno-lint-ignore-file
 `;
+
+async function getCompressed(path: string) {
+  const content = await Deno.readFile(path);
+  const compressed = compress(content);
+  return `new Uint8Array([${compressed.join(", ")}])`;
+}
 
 async function compile() {
   console.time("build");
@@ -63,10 +72,13 @@ async function embedStatic() {
       cache += `  ${
         JSON.stringify(stripped.replace(/ls$/, "js"))
       }: ${value},\n`;
+    } else if (production) {
+      // deno-fmt-ignore
+      const value = `EmbededFile.compressed(${JSON.stringify(mt)}, ${await getCompressed(entry.path)})`;
+      cache += `  ${JSON.stringify(stripped)}: ${value},\n`;
     } else {
       // deno-fmt-ignore
       const value = `await EmbededFile.load(${JSON.stringify(mt)}, ${JSON.stringify(stripped)})`
-      // deno-fmt-ignore
       cache += `  ${JSON.stringify(stripped)}: ${value},\n`;
     }
     console.timeLog("static", entry.path);

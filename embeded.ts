@@ -1,5 +1,6 @@
 import { Sha256 } from "https://deno.land/std@0.97.0/hash/sha256.ts";
 import { compile } from "https://deno.hertz.services/codehz/deno-livescript";
+import { decompress } from "https://deno.land/x/lz4@v0.1.2/mod.ts";
 
 export default class EmbededFile {
   etag: string;
@@ -20,6 +21,12 @@ export default class EmbededFile {
         },
       },
     );
+  }
+
+  static compressed(mime: string, compressed: Uint8Array) {
+    const data = decompress(compressed);
+    console.timeLog("load", "[extracted]");
+    return new EmbededFile(mime, data);
   }
 
   static async load(mime: string, path: string): Promise<EmbededFile> {
