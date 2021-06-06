@@ -1,5 +1,3 @@
-import { extname } from "https://deno.land/std@0.97.0/path/posix.ts";
-
 export interface Options {
   base: URL;
 }
@@ -85,7 +83,7 @@ export class IpfsClient {
         case FileType.File: {
           ret.push(
             this.cat(item.Hash).then((content) => {
-              const ext = extname(item.Name).substring(1);
+              const ext = item.Name.split('.').pop() ?? "";
               try {
                 return ({
                   type: "file",

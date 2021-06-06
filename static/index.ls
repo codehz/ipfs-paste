@@ -30,11 +30,17 @@ function random-name
     append-card!
 
 function extract-card card
-  filename: card.query-selector \.filename .value
+  path: card.query-selector \.filename .value
   content: card.query-selector \.editarea .text-content
 
 function get-contents
   [...content.children].map extract-card
 
-!function upload
-  console.log get-contents!
+!async function upload
+  client = IpfsHttpClientLite backend.value
+  contents = get-contents!
+  arr = await client.add contents, do
+    cid-version: 1
+    trickle: true
+    wrap-with-directory: true
+  location.href = "/ipfs/#{arr.pop!.hash}"

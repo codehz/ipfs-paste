@@ -1,6 +1,7 @@
 doctype html
 html(lang="en")
   include /includes/head.pug
+  +script("https://unpkg.com/ipfs-http-client-lite/dist/index.min.js")
   +jslink("default")
   +jslink("index")
   +csslink("index")
@@ -10,10 +11,9 @@ html(lang="en")
     .panel.panel-left
       .title Code Paste
     .panel.panel-right#backend
-      form#backend-selector
-        select
-          each server in servers
-            option(value=server.url)= server.name
+      select#backend-selector(name=backend)
+        each server in servers
+          option(value=server.url)= server.name
 
   template#content-template
     .card
