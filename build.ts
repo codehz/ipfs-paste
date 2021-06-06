@@ -81,7 +81,8 @@ async function embedStatic() {
       if (isls) {
         // deno-fmt-ignore
         const value = `EmbededFile.compressed(${JSON.stringify(mt)}, ${await getCompiledAndCompressed(entry.path)}, ${JSON.stringify(stripped)})`;
-        cache += `  ${JSON.stringify(stripped)}: ${value},\n`;
+        // deno-fmt-ignore
+        cache += `  ${JSON.stringify(stripped.replace(/ls$/, "js"))}: ${value},\n`;
       } else {
         // deno-fmt-ignore
         const value = `EmbededFile.compressed(${JSON.stringify(mt)}, ${await getCompressed(entry.path)}, ${JSON.stringify(stripped)})`;
@@ -91,9 +92,8 @@ async function embedStatic() {
       if (isls) {
         // deno-fmt-ignore
         const value = `await EmbededFile.compile(${JSON.stringify(stripped)})`
-        cache += `  ${
-          JSON.stringify(stripped.replace(/ls$/, "js"))
-        }: ${value},\n`;
+        // deno-fmt-ignore
+        cache += `  ${JSON.stringify(stripped.replace(/ls$/, "js"))}: ${value},\n`;
       } else {
         // deno-fmt-ignore
         const value = `await EmbededFile.load(${JSON.stringify(mt)}, ${JSON.stringify(stripped)})`
