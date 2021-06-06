@@ -1,3 +1,5 @@
+import isUtf8 from "http://esm.sh/isutf8";
+
 export interface Options {
   base: URL;
 }
@@ -83,8 +85,8 @@ export class IpfsClient {
         case FileType.File: {
           ret.push(
             this.cat(item.Hash).then((content) => {
-              const ext = item.Name.split('.').pop() ?? "";
-              try {
+              const ext = item.Name.split(".").pop() ?? "";
+              if (isUtf8(new Uint8Array(content))) {
                 return ({
                   type: "file",
                   filename: item.Name,
@@ -92,7 +94,7 @@ export class IpfsClient {
                   inline: true,
                   content: decoder.decode(content),
                 });
-              } catch {
+              } else {
                 return ({
                   type: "file",
                   filename: item.Name,
