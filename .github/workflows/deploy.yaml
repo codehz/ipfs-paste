@@ -34,4 +34,4 @@ jobs:
           build_dir: .
           commit_message: Deploy for deno deploy
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PAT: ${{ secrets.MY_PAT }}
