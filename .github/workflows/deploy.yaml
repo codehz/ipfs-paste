@@ -1,0 +1,35 @@
+name: deploy
+
+on:
+  push:
+    branch: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Build pug
+        run: deno run --allow-read --allow-write --unstable build.ts
+
+      - name: clear gitignore
+        run: |
+          sed -i '/^build$/d' .gitignore
+          rm -rf .git
+
+      - name: Upload to deploy branch
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: deploy
+          build_dir: .
+          commit_message: Deploy for deno deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
