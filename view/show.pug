@@ -3,6 +3,8 @@ html(lang="en")
   include /includes/head.pug
   +jslink("default")
   +csslink("show")
+  +script("https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.0.1/build/highlight.min.js")
+  +jslink("view")
   title Paste #{hash}
 
   header
@@ -17,5 +19,8 @@ html(lang="en")
         .card
           .card-header
             .filename=item.filename
-          code.card-body.content=item.content
+          if item.ext
+            code.card-body.content(class=`language-${item.ext}`)=item.content
+          else
+            code.card-body.content(class=`nohighlight`)=item.content
   .placeholder
