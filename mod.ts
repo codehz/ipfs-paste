@@ -9,6 +9,8 @@ import { IpfsClient } from "./ipfs.ts";
 const client = new IpfsClient({ base: new URL("https://ipfs.io/api/v0/") });
 const router = new Router();
 
+console.log("loaded");
+
 router.use(async (event, next) => {
   const time = Date.now();
   await next();
