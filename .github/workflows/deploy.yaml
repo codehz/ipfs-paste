@@ -21,8 +21,7 @@ jobs:
 
       - name: clear gitignore
         run: |
-          sed -i '/^build$/d' .gitignore
-          rm -rf .git .github
+          rm -rf .git .github .gitignore
 
       - name: Upload to deploy branch
         if: success()
