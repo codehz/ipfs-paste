@@ -3,7 +3,6 @@ import {
   generateHeader,
 } from "https://deno.land/x/pug@v0.1.1/mod.ts";
 import { parse } from "https://deno.land/std@0.97.0/flags/mod.ts";
-import { debounce } from "https://deno.hertz.services/chodorowicz/ts-debounce/src/index.ts";
 import {
   ensureDir,
   expandGlob,
@@ -12,10 +11,21 @@ import {
 import { sep } from "https://deno.land/std@0.97.0/path/mod.ts";
 import { mime } from "https://deno.land/x/mimetypes@v1.0.0/mod.ts";
 import { compress } from "https://deno.land/x/lz4@v0.1.2/mod.ts";
-import { compile as compileLS } from "https://deno.hertz.services/codehz/deno-livescript";
+import { compile as compileLS } from "https://deno.hertz.services/codehz/deno-livescript@v0.1.0";
 
 mime.define({ "text/livescript": ["ls"] });
 mime.define({ "image/x-icon": ["ico"] }, true);
+
+function debounce<Args>(
+  cb: (...args: Args[]) => void,
+  duration: number,
+): (...args: Args[]) => void {
+  let timer = -1;
+  return ((...args: Args[]) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => cb(...args), duration);
+  });
+}
 
 const args = parse(Deno.args);
 

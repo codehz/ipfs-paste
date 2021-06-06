@@ -83,6 +83,17 @@
   opacity: 1;
 }
 
+.editarea.external {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  user-select: none;
+  color: var(--dim-color);
+  border-color: var(--main-color);
+}
+
 footer {
   margin: 16px;
   display: flex;

@@ -1,5 +1,5 @@
 import { Sha256 } from "https://deno.land/std@0.97.0/hash/sha256.ts";
-import { compile } from "https://deno.hertz.services/codehz/deno-livescript";
+import { compile } from "https://deno.hertz.services/codehz/deno-livescript@v0.1.0";
 import { decompress } from "https://deno.land/x/lz4@v0.1.2/mod.ts";
 
 export default class EmbededFile {
