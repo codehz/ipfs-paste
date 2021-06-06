@@ -1,3 +1,5 @@
+import { extname } from "https://deno.land/std@0.97.0/path/posix.ts";
+
 export interface Options {
   base: URL;
 }
@@ -64,56 +66,65 @@ export class IpfsClient {
   async generateList(root: string) {
     const list = await this.ls(root);
     const ret: Array<
-      {
-        type: "file";
-        filename: string;
-        inline: boolean;
-        content: string;
-      } | {
-        type: "directory" | "symlink";
-        filename: string;
-        target: string;
-      }
+      Promise<
+        {
+          type: "file";
+          filename: string;
+          ext: string;
+          inline: boolean;
+          content: string;
+        } | {
+          type: "directory" | "symlink";
+          filename: string;
+          target: string;
+        }
+      >
     > = [];
     for (const item of list) {
       switch (item.Type) {
         case FileType.File: {
-          const content = await this.cat(item.Hash);
-          try {
-            ret.push({
-              type: "file",
-              filename: item.Name,
-              inline: true,
-              content: decoder.decode(content),
-            });
-          } catch {
-            ret.push({
-              type: "file",
-              filename: item.Name,
-              inline: false,
-              content: item.Hash,
-            });
-          }
+          ret.push(
+            this.cat(item.Hash).then((content) => {
+              const ext = extname(item.Name).substring(1);
+              try {
+                return ({
+                  type: "file",
+                  filename: item.Name,
+                  ext,
+                  inline: true,
+                  content: decoder.decode(content),
+                });
+              } catch {
+                return ({
+                  type: "file",
+                  filename: item.Name,
+                  ext,
+                  inline: false,
+                  content: item.Hash,
+                });
+              }
+            }),
+          );
           break;
         }
         case FileType.Directory: {
-          ret.push({
+          ret.push(Promise.resolve({
             type: "directory",
             filename: item.Name,
             target: item.Hash,
-          });
+          }));
           break;
         }
         case FileType.Symlink: {
-          ret.push({
+          ret.push(Promise.resolve({
             type: "symlink",
             filename: item.Name,
             target: item.Target,
-          });
+          }));
           break;
         }
       }
     }
-    return ret;
+    return Promise.all(ret);
   }
 }
