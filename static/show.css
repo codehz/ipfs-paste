@@ -25,6 +25,14 @@
   object-position: 50% 50%;
 }
 
+.card-body.link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
 .hljs {
   color: var(--main-color);
   background: var(--inv-color);

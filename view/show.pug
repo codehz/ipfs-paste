@@ -30,5 +30,6 @@ html(lang="en")
                 img(src=`https://gateway.ipfs.io/ipfs/${item.content}`)
             else
               .card-body.link
+                span file size: #{item.size}
                 a(href=`https://gateway.ipfs.io/ipfs/${item.content}` target="_blank" type=item.mime) Open in new tab
   .placeholder

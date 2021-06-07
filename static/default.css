@@ -28,6 +28,7 @@ body {
   padding-top: 64px;
 }
 
+body,
 body.os-host > .os-padding > .os-viewport > .os-content,
 body.os-host > .os-padding > .os-viewport > .os-content-arrange {
   max-width: 1024px;
