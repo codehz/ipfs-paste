@@ -15,21 +15,28 @@ html(lang="en")
 
   section
     each item in files
-      if item.type === "file"
-        .card
-          .card-header
-            .filename=item.filename
-          if item.inline
-            if item.ext
-              code.card-body.overflow-x.content(class=`language-${item.ext}`)=item.content
+      .card(data-file-type=item.type)
+        case item.type
+          when "file"
+            .card-header
+              .filename=item.filename
+            if item.inline
+              if item.ext
+                code.card-body.overflow-x.content(class=`language-${item.ext}`)=item.content
+              else
+                code.card-body.overflow-x.content(class=`nohighlight`)=item.content
             else
-              code.card-body.overflow-x.content(class=`nohighlight`)=item.content
-          else
-            if item.mime.startsWith("image/")
-              .card-body.overflow-x.image
-                img(src=`https://gateway.ipfs.io/ipfs/${item.content}`)
-            else
-              .card-body.link
-                span file size: #{item.size}
-                a(href=`https://gateway.ipfs.io/ipfs/${item.content}` target="_blank" type=item.mime) Open in new tab
+              if item.mime.startsWith("image/")
+                .card-body.overflow-x.image
+                  img(src=`https://gateway.ipfs.io/ipfs/${item.content}`)
+              else
+                .card-body.link
+                  span file size: #{item.size}
+                  a(href=`https://gateway.ipfs.io/ipfs/${item.content}` target="_blank" type=item.mime) Open in new tab
+          when "directory"
+          when "symlink"
+            .card-header
+              .filename=item.filename
+            .card-body.link
+              a(href=`/ipfs/${item.target}`) Open #{item.type}
   .placeholder
