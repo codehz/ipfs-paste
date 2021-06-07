@@ -1,6 +1,7 @@
 document.query-selector-all \code
   .for-each (e) ->
     hljs.highlight-element e
+    hljs.line-numbers-block e
 
 document.query-selector-all \.card-body.overflow-x
   .for-each (e) ->

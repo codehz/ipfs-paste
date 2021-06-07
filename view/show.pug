@@ -4,6 +4,7 @@ html(lang="en")
   +jslink("default")
   +csslink("show")
   +script("https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.0.1/build/highlight.min.js")
+  +script("https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.8.0/dist/highlightjs-line-numbers.min.js")
   +jslink("show")
   title Paste #{hash}
 
@@ -22,9 +23,11 @@ html(lang="en")
               .filename=item.filename
             if item.inline
               if item.ext
-                code.card-body.overflow-x.content(class=`language-${item.ext}`)=item.content
+                .card-body.overflow-x
+                  code.content(class=`language-${item.ext}`)=item.content
               else
-                code.card-body.overflow-x.content(class=`nohighlight`)=item.content
+                .card-body.overflow-x
+                  code.content(class=`nohighlight`)=item.content
             else
               if item.mime.startsWith("image/")
                 .card-body.overflow-x.image
