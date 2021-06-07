@@ -4,6 +4,26 @@
   font-weight: bold;
 }
 
+.card-body.image {
+  padding: 0;
+  overflow: hidden;
+}
+
+.card-body.image,
+.card-body.image.os-host > .os-padding > .os-viewport > .os-content,
+.card-body.image.os-host > .os-padding > .os-viewport > .os-content-arrange {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-body.image img {
+  display: block;
+  min-height: 128px;
+  object-fit: none;
+  object-position: 50% 50%;
+}
+
 .hljs {
   color: var(--main-color);
   background: var(--inv-color);

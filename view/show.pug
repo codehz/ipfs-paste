@@ -19,8 +19,16 @@ html(lang="en")
         .card
           .card-header
             .filename=item.filename
-          if item.ext
-            code.card-body.content(class=`language-${item.ext}`)=item.content
+          if item.inline
+            if item.ext
+              code.card-body.overflow-x.content(class=`language-${item.ext}`)=item.content
+            else
+              code.card-body.overflow-x.content(class=`nohighlight`)=item.content
           else
-            code.card-body.content(class=`nohighlight`)=item.content
+            if item.mime.startsWith("image/")
+              .card-body.overflow-x.image
+                img(src=`https://gateway.ipfs.io/ipfs/${item.content}`)
+            else
+              .card-body.link
+                a(href=`https://gateway.ipfs.io/ipfs/${item.content}` target="_blank" type=item.mime) Open in new tab
   .placeholder

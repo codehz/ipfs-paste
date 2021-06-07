@@ -107,8 +107,8 @@ section {
   outline: none;
   background-color: var(--inv-color);
   position: relative;
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
+  white-space: pre;
+  overflow-x: auto;
 }
 
 ::selection {
@@ -182,14 +182,17 @@ os-theme-thin
   right: 16px;
   height: 16px;
   padding: 0px 8px;
-  background-color: var(--inv-color);
 }
 .os-theme-thin > .os-scrollbar-vertical {
   bottom: 16px;
   width: 16px;
   padding: 8px 0px;
+}
+body.os-theme-thin > .os-scrollbar-horizontal,
+body.os-theme-thin > .os-scrollbar-vertical {
   background-color: var(--inv-color);
 }
+
 .os-theme-thin.os-host-rtl > .os-scrollbar-horizontal {
   left: 16px;
   right: 0;
@@ -197,10 +200,6 @@ os-theme-thin
 .os-theme-thin > .os-scrollbar-corner {
   height: 16px;
   width: 16px;
-  background-color: var(--inv-color);
-}
-.os-theme-thin > .os-scrollbar > .os-scrollbar-track {
-  background: var(--inv-color);
 }
 .os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track:before,
 .os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track:before {

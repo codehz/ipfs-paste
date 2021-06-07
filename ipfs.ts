@@ -1,4 +1,11 @@
 import isUtf8 from "http://esm.sh/isutf8";
+import { mime } from "https://deno.land/x/mimetypes@v1.0.0/mod.ts";
+
+mime.define({
+  "image/x-icon": ["ico"],
+  "text/livescript": ["ls"],
+  "text/typescript": ["ts", "tsx"],
+}, true);
 
 export interface Options {
   base: URL;
@@ -73,6 +80,7 @@ export class IpfsClient {
           ext: string;
           inline: boolean;
           content: string;
+          mime: string;
         } | {
           type: "directory" | "symlink";
           filename: string;
@@ -86,6 +94,8 @@ export class IpfsClient {
           ret.push(
             this.cat(item.Hash).then((content) => {
               const ext = item.Name.split(".").pop() ?? "";
+              const mimetype = mime.getType(item.Name) ??
+                "application/octet-stream";
               if (isUtf8(new Uint8Array(content))) {
                 return ({
                   type: "file",
@@ -93,6 +103,7 @@ export class IpfsClient {
                   ext,
                   inline: true,
                   content: decoder.decode(content),
+                  mime: mimetype,
                 });
               } else {
                 return ({
@@ -101,6 +112,7 @@ export class IpfsClient {
                   ext,
                   inline: false,
                   content: item.Hash,
+                  mime: mimetype,
                 });
               }
             }),
