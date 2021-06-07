@@ -66,32 +66,38 @@ function get-contents
     delete! target.disabled
 
 async function async-generate (it, cb)
-  done = false
-  until done
-    { value, done } = await it.next!
-    await cb value
+  Promise.all do
+    loop
+      { value, done } = await it.next!
+      break if done
+      cb value
 
-async function add-file handle
+async function add-file (handle, base = "")
   file = await handle.get-file!
   content = new Uint8Array await file.array-buffer!
-  console.log content
   text = decoder.decode content if is-utf8 content
-  append-card handle.name
-    ..content = content
+  append-card base + handle.name
+    ..content = content if !text
     ..query-selector \.editarea
       ..content-editable = !!text
       ..text-content = text ? "(binary data)"
       ..class-list.add "external" if !text
 
+async function add-folder (handle, base = "")
+  newbase = "#base#{handle.name}/"
+  await async-generate handle.values!, add-file _, newbase
+
 !async function on-drop (e)
   added = false
   handles = await Promise.all do
     Array.from e.data-transfer.items
-      .map (item) -> item.get-as-file-system-handle!
+      .map (.get-as-file-system-handle!)
   for handle in handles
     added = true
+    console.log handle.kind
     switch handle.kind
     | \file => await add-file handle
+    | \directory => await add-folder handle
   e.target.closest \.card .remove! if added
 
 function is-utf8 data
