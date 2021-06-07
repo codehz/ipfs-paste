@@ -100,6 +100,7 @@ section {
   padding-left: 10px;
   font-weight: bold;
   outline: none;
+  color: inherit;
   background: none;
   font-family: inherit;
   font-size: inherit;
