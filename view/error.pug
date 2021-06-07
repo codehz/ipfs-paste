@@ -1,0 +1,18 @@
+doctype html
+html(lang="en")
+  include /includes/head.pug
+  +jslink("default")
+  +csslink("error")
+  title Invalid hash
+
+  header
+    .panel.panel-left
+      a(href="/") Paste
+  
+  section
+    .card.error
+      .card-header
+        .title Failed to loading the file
+      .card-body
+        div.hash=hash
+        a(href=`https://gateway.ipfs.io/ipfs/${hash}` target="_blank") View it in IPFS.io

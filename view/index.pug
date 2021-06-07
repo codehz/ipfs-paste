@@ -25,7 +25,7 @@ html(lang="en")
   template#content-template
     .card
       .card-header
-        input.filename(placeholder="file name" value="paste.txt")
+        input.title.filename(placeholder="file name" value="paste.txt")
         .btn-delete(tabindex="-1" title="Remove this card" role="button")
       .card-body.editarea(contenteditable="plaintext-only" role="textbox" title="file contents")
   section#content(role="Main")

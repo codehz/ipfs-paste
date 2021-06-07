@@ -50,18 +50,6 @@
   transform: rotate(-45deg);
 }
 
-.filename {
-  flex: 1;
-  padding: 8px;
-  padding-left: 10px;
-  font-weight: bold;
-  outline: none;
-  background: none;
-  font-family: inherit;
-  font-size: inherit;
-  border: none;
-}
-
 .editarea::before {
   display: block;
   content: "Paste or drop files here";

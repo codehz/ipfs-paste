@@ -36,6 +36,8 @@ interface Objects {
 
 const decoder = new TextDecoder();
 
+export class EmptyError extends Error {}
+
 export class IpfsClient {
   constructor(public options: Options) {
   }
@@ -73,6 +75,7 @@ export class IpfsClient {
 
   async generateList(root: string) {
     const list = await this.ls(root);
+    if (list.length == 0) throw new EmptyError();
     const ret: Array<
       Promise<
         {

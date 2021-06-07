@@ -4,7 +4,7 @@ import { Context, Router } from "https://deno.land/x/deploy_route@0.1.0/mod.ts";
 import * as views from "./view.ts";
 import * as config from "./config.ts";
 import * as embeded from "./static.ts";
-import { IpfsClient } from "./ipfs.ts";
+import { EmptyError, IpfsClient } from "./ipfs.ts";
 
 const client = new IpfsClient({ base: new URL("https://ipfs.io/api/v0/") });
 const router = new Router();
@@ -84,8 +84,21 @@ router.get<{ hash: string }>("/ipfs/:hash", async (event) => {
       ),
     );
   } catch (e) {
-    console.error(e);
-    await event.respondWith(new Response(e + "", { status: 500 }));
+    if (e instanceof EmptyError) {
+      await event.respondWith(
+        Response.redirect(`https://gateway.ipfs.io/ipfs/${hash}`, 301),
+      );
+    } else {
+      console.error(e);
+      await event.respondWith(
+        new Response(views.error({ hash }), {
+          status: 500,
+          headers: {
+            "content-type": "text/html",
+          },
+        }),
+      );
+    }
   }
 });
 

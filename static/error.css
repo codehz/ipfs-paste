@@ -1,0 +1,17 @@
+.card.error {
+  color: red;
+}
+
+.card.error .card-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hash {
+  user-select: all;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
