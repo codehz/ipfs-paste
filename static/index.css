@@ -64,7 +64,7 @@
 
 .editarea::before {
   display: block;
-  content: "Paste or drag files here";
+  content: "Paste or drop files here";
   position: absolute;
 
   top: 50%;
