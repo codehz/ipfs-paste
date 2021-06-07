@@ -7,6 +7,7 @@
 .card-body.image {
   padding: 0;
   overflow: hidden;
+  overflow-x: auto;
 }
 
 .card-body.image,
