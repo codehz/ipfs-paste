@@ -207,6 +207,9 @@ body.os-theme-thin > .os-scrollbar-vertical {
   content: "";
   display: block;
   position: absolute;
+}
+body.os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track:before,
+body.os-theme-thin > .os-scrollbar-vertical > .os-scrollbar-track:before {
   background: var(--dim-color);
 }
 .os-theme-thin > .os-scrollbar-horizontal > .os-scrollbar-track:before,
