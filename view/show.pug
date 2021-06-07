@@ -4,14 +4,14 @@ html(lang="en")
   +jslink("default")
   +csslink("show")
   +script("https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.0.1/build/highlight.min.js")
-  +jslink("view")
+  +jslink("whow")
   title Paste #{hash}
 
   header
     .panel.panel-left
-      .title Paste
+      a(href="/") Paste
     .panel.panel-right
-      .a-create Create new paste
+      a(href=`https://gateway.ipfs.io/ipfs/${hash}` target="_blank") View it in IPFS.io
 
   section
     each item in files
